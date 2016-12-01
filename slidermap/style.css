@@ -1,5 +1,15 @@
 
 
+body {
+   font-family: Verdana;
+}
+
+circle {
+  fill: steelblue;
+  fill-opacity: .6;
+  stroke: #fff;
+}
+
 
 
 
