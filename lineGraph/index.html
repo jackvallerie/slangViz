@@ -1,3 +1,8 @@
+<!-- 
+TODO: adapt tsv sections for csv
+-->
+
+
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
@@ -14,7 +19,7 @@
 
 </style>
 <svg width="960" height="500"></svg>
-<script src="//d3js.org/d3.v4.min.js"></script>
+<script lang="javascript" src="js/d3.min.js"></script>
 <script>
 
 var svg = d3.select("svg"),
@@ -23,7 +28,7 @@ var svg = d3.select("svg"),
     height = svg.attr("height") - margin.top - margin.bottom,
     g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-var parseTime = d3.timeParse("%Y%m%d");
+var parseTime = d3.timeParse("%Y%m%d"); // "%Y-%m"
 
 var x = d3.scaleTime().range([0, width]),
     y = d3.scaleLinear().range([height, 0]),
@@ -36,6 +41,18 @@ var line = d3.line()
 
 d3.tsv("data.tsv", type, function(error, data) {
   if (error) throw error;
+
+/*
+  var phrases = data.columns.slice(1).map(function(id) {
+    return {
+      id: id,
+      values: data.map(function(d) {
+        return {date: d.month, popularity: d[id]};
+      })
+    };
+  });
+
+*/
 
   var cities = data.columns.slice(1).map(function(id) {
     return {
@@ -68,7 +85,7 @@ d3.tsv("data.tsv", type, function(error, data) {
       .attr("y", 6)
       .attr("dy", "0.71em")
       .attr("fill", "#000")
-      .text("Temperature, ºF");
+      .text("Popularity");
 
   var city = g.selectAll(".city")
     .data(cities)
