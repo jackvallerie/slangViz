@@ -13,10 +13,6 @@ body {
     text-align: right;
 }
 
-#states path {
-  fill: #ccc;
-  stroke: #fff;
-}
 
 circle {
   fill: steelblue;
@@ -28,16 +24,16 @@ circle {
 
 <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href=style.css />
 
 <script src="http://d3js.org/d3.v2.js"></script>
 
 </head>
 
 <body>
-<h2>	
-Slang
-</h2>
+<h1>	
+The Evolution of Slang
+</h1>
 
 
 <div id="graph"></div>
@@ -79,8 +75,6 @@ var svg = d3.select("#graph").insert("svg:svg")
 	.attr("width", w)
         .attr("height", h);
 
-var states = svg.append("svg:g")
-    .attr("id", "states");
 
 var circles = svg.append("svg:g")
     .attr("id", "circles");
@@ -88,22 +82,6 @@ var circles = svg.append("svg:g")
 var labels = svg.append("svg:g")
     .attr("id", "labels");
 
-/*d3.json("world-countries.json", function(collection) {
-  states.selectAll("path")
-      .data(collection.features)
-    .enter().append("svg:path")
-      .attr("d", path)
-            .on("mouseover", function(d) {
-                d3.select(this).style("fill","#6C0")
-                    .append("svg:title")
-                    .text(d.properties.name);})
-            .on("mouseout", function(d) {
-                d3.select(this).style("fill","#ccc");})
-});*/
-
-
-//http://stackoverflow.com/questions/11386150/lat-lon-positon-on-a-d3-js-map
-// +convert to string to number
 
 var scalefactor=1./50. ;
 
