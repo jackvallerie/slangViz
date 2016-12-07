@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -10,10 +12,26 @@
 </head>
 
 <body>
-<h1>	
+<h1 align="center">  
 The Evolution of Slang
 </h1>
 
+<p>Pick a Category: </p>
+
+<script src="menu.js"></script>
+
+<div class="dropdown">
+    <button onclick="dropclick()" class="dropbtn">Category..</button>
+        <div id="myDropdown" class="dropdown-content">
+        <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+            <a href="punk.html">Punk</a>
+            <a href="lol.html">lol</a>
+            <a href="friend.html">Friend</a>
+            <a href="weed.html">Weed</a>
+            <a href="dances.html">Dance Moves</a>
+            <a href="media.html">Social Media</a>
+        </div>
+  </div>
 
 <div id="graph"></div>
 
@@ -30,27 +48,24 @@ The Evolution of Slang
 $(document).ready(function() {
 
 $("#slider").slider({
-	value:2004,
-	min: 2004,
-	max: 2016,
-	step: 1,
-	slide: function( event, ui ) {
-		$("#year").val(ui.value);
-		redraw(ui.value.toString());
-	}
+  value:2004,
+  min: 2004,
+  max: 2016,
+  step: 1,
+  slide: function( event, ui ) {
+    $("#year").val(ui.value);
+    redraw(ui.value.toString());
+  }
 });
 $("#year").val($("#slider").slider("value") );
 
 var w = 1200;
-var h = 350;
+var h = 400;
 var color = d3.scale.category10();
-
-var xy = d3.geo.equirectangular()
-          .scale(1000);
 
 
 var svg = d3.select("#graph").insert("svg:svg")
-	.attr("width", w)
+  .attr("width", w)
     .attr("height", h);
 
 var circles = svg.append("svg:g")
@@ -59,16 +74,19 @@ var circles = svg.append("svg:g")
 var labels = svg.append("svg:g")
     .attr("id", "labels");
 
+var x_coords = [150, 400, 600, 700, 800];
+var y_coords = [150, 200, 250, 300, 300];
 
-var scalefactor=1./50. ;
 
-d3.csv("word_data.csv", function(csv) {
+var scalefactor = 2;
+
+d3.csv("csv/punk.csv", function(csv) {
   circles.selectAll("circle")
       .data(csv)
     .enter()
     .append("svg:circle")
-      .attr("cx", function(d, i) { return xy([+d["longitude"],+d["latitude"]])[0]; })
-      .attr("cy", function(d, i) { return xy([+d["longitude"],+d["latitude"]])[1]; })
+      .attr("cx", function(d,i) { return x_coords[i];} )
+      .attr("cy", function(d,i) { return y_coords[i];} )
       .attr("r",  function(d) { return (+d["2004"])*scalefactor; })
       .style("fill", function(d) { return color(d["word"]); })
       .attr("title",  function(d) { return d["word"]+": "+Math.round(d["2004"]); })
@@ -81,18 +99,17 @@ d3.csv("word_data.csv", function(csv) {
       .data(csv)
     .enter()
     .append("svg:text")
-        .attr("x", function(d, i) { return xy([+d["longitude"],+d["latitude"]])[0]; })
-        .attr("y", function(d, i) { return xy([+d["longitude"],+d["latitude"]])[1]; })
+        .attr("x", function(d,i) { return x_coords[i];} )
+        .attr("y", function(d,i) { return y_coords[i];} )
         .attr("dy", "0.3em")
         .attr("text-anchor", "middle")
        .text(function(d) { return d["word"]; });
 
 });
-/* DO THIS https://jrue.github.io/coding/2014/exercises/basicbubblepackchart/ */
 
 function redraw(year) {
       circles.selectAll("circle")
-	  .transition()
+    .transition()
           .duration(1000).ease("linear")
           .attr("r",  function(d) { return (+d[year])*scalefactor; })
           .attr("title",  function(d) { return d["word"]+": "+Math.round(d[year]); });
@@ -108,3 +125,4 @@ function redraw(year) {
 </body>
 
 </html>
+

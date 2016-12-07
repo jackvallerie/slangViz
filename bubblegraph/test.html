@@ -2,12 +2,11 @@
 
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
 <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
 <link rel="stylesheet" type="text/css" href=style.css />
 <script src="http://d3js.org/d3.v2.js"></script>
-
 </head>
 
 <body>
@@ -23,12 +22,12 @@ The Evolution of Slang
     <button onclick="dropclick()" class="dropbtn">Category..</button>
         <div id="myDropdown" class="dropdown-content">
         <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
-            <a href="#" id="csv/punk.csv">Punk</a>
-            <a href="#" id="csv/lol.csv">lol</a>
-            <a href="#">Friend</a>
-            <a href="#">Weed</a>
-            <a href="#">Dance Moves</a>
-            <a href="#">Social Media</a>
+        <select>
+            <option value="punk.html">Punk</option>
+            <option value="punk.html">hi</option>
+            <option value="punk.html">;lk</option>
+            <option value="punk.html">asdf</option>
+          </select>
         </div>
   </div>
 
@@ -43,28 +42,6 @@ The Evolution of Slang
 </div>
 
 <script type="text/javascript">
-
-var mycsv = "csv/punk.csv";
-
-//var links = document.getElementsByTagName("a");
-
-/*for (var i = 0; i < links.length; i++) {
-  //console.log(links[i].getAttribute("id"));
-    links[i].addEventListener('click', set_csv.bind(links[i].getAttribute("id")), false);
-};*/
-
-/*function set_csv(id) {
-    window.mycsv = id;
-    console.log(window.mycsv);
-}*/
-
-/*$("#csv/lol.csv").on('click', function() {
-    window.mycsv = "csv/lol.csv";
-});*/
-
-
-
-
 
 // Some code taken from Patrick.Brockmann@lsce.ipsl.fr
 
@@ -130,6 +107,7 @@ var tooltip = d3.select("body")
     .style("visibility", "hidden")
     .text("a simple tooltip");
 
+var mycsv = "csv/punk.csv"
 d3.csv(mycsv, function(csv) {
   circles.selectAll("circle")
       .data(csv)

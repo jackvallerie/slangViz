@@ -12,21 +12,32 @@
 </head>
 
 <body>
-<h1>  
+<h1 align="center">  
 The Evolution of Slang
 </h1>
 
-<a href="bubblegraph.html">Other Graph</a>
-<a href="bubblegraph.html">Other Graph</a>
-<a href="bubblegraph.html">Other Graph</a>
-<a href="bubblegraph.html">Other Graph</a>
+<p>Pick a Category: </p>
 
+<script src="menu.js"></script>
+
+<div class="dropdown">
+    <button onclick="dropclick()" class="dropbtn">Category..</button>
+        <div id="myDropdown" class="dropdown-content">
+        <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+            <a href="punk.html">Punk</a>
+            <a href="lol.html">lol</a>
+            <a href="friend.html">Friend</a>
+            <a href="weed.html">Weed</a>
+            <a href="dances.html">Dance Moves</a>
+            <a href="media.html">Social Media</a>
+        </div>
+  </div>
 
 <div id="graph"></div>
 
 <p>
 <label for="year">Year :</label>
-<input type="text" id="year" style="border:0; color:#ff00ff; font-weight:bold; font-size:100%" />
+<input type="text" id="year" style="border:0; color:#e377c2; font-weight:bold; font-size:100%" />
 </p>
 <div id="slider" style="width: 500px;"></div>
 
@@ -69,7 +80,7 @@ var y_coords = [150, 200, 250, 300, 300];
 
 var scalefactor = 2;
 
-d3.csv("punk.csv", function(csv) {
+d3.csv("csv/lol.csv", function(csv) {
   circles.selectAll("circle")
       .data(csv)
     .enter()
@@ -95,7 +106,6 @@ d3.csv("punk.csv", function(csv) {
        .text(function(d) { return d["word"]; });
 
 });
-/* DO THIS https://jrue.github.io/coding/2014/exercises/basicbubblepackchart/ */
 
 function redraw(year) {
       circles.selectAll("circle")
