@@ -1,0 +1,157 @@
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+<link rel="stylesheet" type="text/css" href=style.css />
+<script src="http://d3js.org/d3.v2.js"></script>
+
+</head>
+
+<body>
+<h1 align="center">  
+The Evolution of Slang
+</h1>
+
+<p>Pick a Category: </p>
+
+<script src="menu.js"></script>
+
+<div class="dropdown">
+    <button onclick="dropclick()" class="dropbtn">Category..</button>
+        <div id="myDropdown" class="dropdown-content">
+        <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+            <a onclick = 'load_graph("csv/punk.csv")'>Punk</a>
+            <a onclick='load_graph("csv/lol.csv")'>Laughter</a>
+            <a onclick='load_graph("csv/friend.csv")'>Friend</a>
+            <a onclick='load_graph("csv/weed.csv")'>Weed</a>
+            <a onclick='load_graph("csv/dances.csv")'>Dance Moves</a>
+            <a onclick='load_graph("csv/media.csv")'>Social Media</a>
+        </div>
+  </div>
+
+<div id="bubble"></div>
+
+<p>
+<label for="year">Year :</label>
+<input type="text" id="year" style="border:0; color:#e377c2; font-weight:bold; font-size:100%" />
+</p>
+<div id="slider" style="width: 500px;">
+    
+</div>
+
+
+<script type="text/javascript">
+
+var mycsv = "csv/punk.csv";
+
+// Code for bubbles+slider taken from Patrick.Brockmann@lsce.ipsl.fr
+
+var w = 1200;
+var h = 400;
+var color = d3.scale.category10();
+
+var x_coords = [150, 400, 600, 700, 900];
+var y_coords = [150, 200, 250, 140, 300];
+
+
+var scalefactor = 2;
+
+var tooltip = d3.select("body")
+    .append("div")
+    .style("position", "absolute")
+    .style("z-index", "10")
+    .style("visibility", "hidden")
+    .text("a simple tooltip");
+
+load_graph(mycsv); 
+
+function load_graph(mycsv) {
+
+    document.getElementById("bubble").innerHTML = ""; //clear graph div
+
+    var svg = d3.select("#bubble").insert("svg:svg")
+        .attr("width", w)
+        .attr("height", h);
+
+    var circles = svg.append("svg:g")
+        .attr("id", "circles");
+
+    var labels = svg.append("svg:g")
+        .attr("id", "labels");
+
+          $("#slider").slider({
+          value:2004,
+          min: 2004,
+          max: 2016,
+          step: 1,
+          slide: function( event, ui ) {
+            $("#year").val(ui.value);
+            redraw(ui.value.toString(), circles, labels);
+          }
+        });
+
+        $("#year").val($("#slider").slider("value") );
+
+    d3.csv(mycsv, function(csv) {
+        circles.selectAll("circle")
+            .data(csv)
+          .enter()
+          .append("svg:circle")
+            
+            .attr("cx", function(d,i) { return x_coords[i];} )
+            .attr("cy", function(d,i) { return y_coords[i];} )
+            .attr("r",  function(d) { return (+d["2004"])*scalefactor; })
+            .style("fill", function(d) { return color(d["word"]); })
+
+         
+            .attr("title",  function(d) { return d["word"]+": "+Math.round(d["2004"]); })
+                  .on("mouseover", function(d) {
+                      //d3.select(this).style("fill","#FC0");
+                      return tooltip.style("visibility", "visible").text(d["description"]);
+                    })
+                  .on("mousemove", function(){
+                    return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
+                  })
+
+                  .on("mouseout", function(d) {
+                      d3.select(this).style("fill",function(d) { 
+                        return color(d["word"]); });})
+
+                  .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
+
+
+        labels.selectAll("labels")
+            .data(csv)
+          .enter()
+          .append("svg:text")
+              .attr("x", function(d,i) { return x_coords[i];} )
+              .attr("y", function(d,i) { return y_coords[i];} )
+              .attr("dy", "0.3em")
+              .attr("text-anchor", "middle")
+             .text(function(d) { return d["word"]; });
+
+      });
+}
+
+function redraw(year, circles, labels) {
+    circles.selectAll("circle")
+    .transition()
+          .duration(1000).ease("linear")
+          .attr("r",  function(d) { return (+d[year])*scalefactor; })
+          .attr("title",  function(d) { return d["word"]+": "+Math.round(d[year]); });
+
+      labels.selectAll("text")
+          .text(function(d) { return d["word"]; });
+}
+
+
+
+</script>
+
+</body>
+
+</html>
+
