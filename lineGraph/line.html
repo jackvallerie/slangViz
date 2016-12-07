@@ -34,11 +34,11 @@ div.tooltip {
 </style>
 
 
-<svg width="960" height="500"></svg>
+<svg id="line" width="960" height="500"></svg>
 
 
 <script lang="javascript" src="js/d3.min.js"></script>
-<script src="js/d3.legend.js"></script>
+<script src="../lineGraph/js/d3.legend.js"></script>
 <script>
 
 
@@ -48,7 +48,7 @@ var div = d3.select("body").append("div")
     .style("opacity", 0);
 
 
-var svg = d3.select("svg"),
+var svg = d3.select("#line"),
     margin = {top: 20, right: 80, bottom: 30, left: 50},
     width = svg.attr("width") - margin.left - margin.right,
     height = svg.attr("height") - margin.top - margin.bottom,
@@ -68,7 +68,7 @@ var line = d3.line()
     .y(function(d) { return y(d.searchFreq); });
 
 
-d3.csv("csv/twerk.csv", type, function(error, data) {
+d3.csv("csv/dances.csv", type, function(error, data) {
   if (error) throw error;
 
   var phrases = data.columns.slice(1).map(function(id) {
