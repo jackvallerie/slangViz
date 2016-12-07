@@ -3,10 +3,6 @@
 <meta charset="utf-8">
 <style>
 
-.axis--x path {
-  display: none;
-}
-
 .line {
   fill: none;
   stroke: steelblue;
@@ -39,7 +35,7 @@ div.tooltip {
 
 
 // Define the div for the tooltip
-var div = d3.select("body").append("div") 
+var div = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
@@ -64,7 +60,7 @@ var line = d3.line()
     .y(function(d) { return y(d.searchFreq); });
 
 
-d3.csv("csv/twerk.csv", type, function(error, data) {
+d3.csv("csv/line_dances.csv", type, function(error, data) {
   if (error) throw error;
 
   var phrases = data.columns.slice(1).map(function(id) {
@@ -118,33 +114,32 @@ d3.csv("csv/twerk.csv", type, function(error, data) {
                  d.id + ": " + "freq" + "<br/>")
            .style("left", (d3.event.pageX) + "px")   
            .style("top", (d3.event.pageY - 28) + "px");  
-       })          
+       })
       .on("mouseout", function(d) {   
         div.transition()    
            .duration(500)    
            .style("opacity", 0); 
        });
 
-  phrase.append("text")
-      .datum(function(d) { return {id: d.id, value: d.values[d.values.length - 1]}; })
-      .attr("transform", function(d) { return "translate(" + x(d.value.month) + "," + y(d.value.searchFreq) + ")"; })
-      .attr("x", 3)
-      .attr("dy", "0.35em")
-      .style("font", "10px sans-serif")
-      .text(function(d) { return d.id; });
+  // phrase.append("text")
+  //     .datum(function(d) { return {id: d.id, value: d.values[d.values.length - 1]}; })
+  //     .attr("transform", function(d) { return "translate(" + x(d.value.month) + "," + y(d.value.searchFreq) + ")"; })
+  //     .attr("x", 3)
+  //     .attr("dy", "0.35em")
+  //     .style("font", "10px sans-serif")
+  //     .text(function(d) { return d.id; });
 
   legend = svg.append("g")
     .attr("class","legend")
     .attr("transform","translate(50,30)")
     .style("font-size","12px")
-    .call(d3.legend)
 
-  setTimeout(function() { 
-    legend
-      .style("font-size","20px")
-      .attr("data-style-padding",10)
-      .call(d3.legend)
-  },1000)
+  // setTimeout(function() { 
+  //   legend
+  //     .style("font-size","20px")
+  //     .attr("data-style-padding",10)
+  //     .call(d3.legend)
+  // },1000)
 });
 
 
@@ -168,7 +163,6 @@ d3.csv("csv/twerk.csv", type, function(error, data) {
 //             .duration(500)    
 //             .style("opacity", 0); 
 //     });
-
 
 
 
