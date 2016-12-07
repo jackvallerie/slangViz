@@ -24,11 +24,11 @@ The Evolution of Slang
         <div id="myDropdown" class="dropdown-content">
         <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
             <a onclick = 'load_graph("csv/punk.csv")'>Punk</a>
-            <a onclick='load_graph("csv/lol.csv")'>Laughter</a>
+            <a onclick='load_graph("csv/lol.csv")'>lol</a>
             <a onclick='load_graph("csv/friend.csv")'>Friend</a>
-            <a onclick='load_graph("csv/weed.csv")'>Weed</a>
-            <a onclick='load_graph("csv/dances.csv")'>Dance Moves</a>
-            <a onclick='load_graph("csv/media.csv")'>Social Media</a>
+            <a href="#">Weed</a>
+            <a href="#">Dance Moves</a>
+            <a href="#">Social Media</a>
         </div>
   </div>
 
@@ -42,19 +42,20 @@ The Evolution of Slang
     
 </div>
 
-
 <script type="text/javascript">
 
 var mycsv = "csv/punk.csv";
 
-// Code for bubbles+slider taken from Patrick.Brockmann@lsce.ipsl.fr
+// Some code taken from Patrick.Brockmann@lsce.ipsl.fr
+
+
 
 var w = 1200;
 var h = 400;
 var color = d3.scale.category10();
 
-var x_coords = [150, 400, 600, 700, 900];
-var y_coords = [150, 200, 250, 140, 300];
+var x_coords = [150, 400, 600, 700, 800];
+var y_coords = [150, 200, 250, 300, 300];
 
 
 var scalefactor = 2;
