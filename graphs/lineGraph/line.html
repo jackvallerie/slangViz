@@ -58,6 +58,7 @@ var line = d3.line()
     .x(function(d) { return x(d.month); })
     .y(function(d) { return y(d.searchFreq); });
 
+//<<<<<<< HEAD
 //to pull from URL
 var QueryString = function () {
   // This function is anonymous, is executed immediately and 
@@ -87,6 +88,11 @@ var QueryString = function () {
 var mycsv = QueryString.key;
 
 d3.csv(mycsv, type, function(error, data) {
+//=======
+
+
+d3.csv("csv/line_friend.csv", type, function(error, data) {
+//>>>>>>> 57c70fc402870507336f4b755ed700ba686ccf86
   if (error) throw error;
 
   var phrases = data.columns.slice(1).map(function(id) {
