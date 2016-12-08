@@ -60,7 +60,7 @@ var line = d3.line()
 
 
 
-d3.csv("csv/line_lol.csv", type, function(error, data) {
+d3.csv("csv/line_friend.csv", type, function(error, data) {
   if (error) throw error;
 
   var phrases = data.columns.slice(1).map(function(id) {
