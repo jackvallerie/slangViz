@@ -59,7 +59,8 @@ var line = d3.line()
     .y(function(d) { return y(d.searchFreq); });
 
 
-d3.csv("csv/line_dances.csv", type, function(error, data) {
+
+d3.csv("csv/line_lol.csv", type, function(error, data) {
   if (error) throw error;
 
   var phrases = data.columns.slice(1).map(function(id) {
@@ -95,6 +96,19 @@ d3.csv("csv/line_dances.csv", type, function(error, data) {
       .attr("fill", "#000")
       .text("Google search frequency");
 
+//
+//   var g.append("g")
+//       .attr("class", "line")
+//       .attr("d", funciton(d) {  })
+// //
+  svg.append("line")
+      .attr("") 
+
+  var date_lines = g.selectAll(".dates")
+    .data(phrases)
+    .enter().append("g")
+      .attr("class", "date_lines")
+
   var phrase = g.selectAll(".phrase")
     .data(phrases)
     .enter().append("g")
@@ -103,22 +117,24 @@ d3.csv("csv/line_dances.csv", type, function(error, data) {
   phrase.append("path")
       .attr("class", "line")
       .attr("d", function(d) { return line(d.values); })
-      .attr("data-legend",function(d) { return d.id; })
+      // .attr("data-legend",function(d) { return d.id; })
       .style("stroke", function(d) { return z(d.id); })
-      .on("mouseover", function(d) {    
-        div.transition()    
-           .duration(200)    
-           .style("opacity", .9);    
-        div.html("date" + "<br/>" + 
-                 d.id + ": " + "freq" + "<br/>")
-           .style("left", (d3.event.pageX) + "px")   
-           .style("top", (d3.event.pageY - 28) + "px");  
+      .on("mouseover", function(d) {
+        console.log(d3.mouse(this));
+
+        // div.transition()
+        //    .duration(200)
+        //    .style("opacity", .9);
+        // div.html(d.values + "<br/>" + 
+        //          d.id + ": " + d.values.searchFreq + "<br/>")
+        //    .style("left", (d3.event.pageX) + "px")   
+        //    .style("top", (d3.event.pageY - 28) + "px");  
        })
-      .on("mouseout", function(d) {   
-        div.transition()    
-           .duration(500)    
-           .style("opacity", 0); 
-       });
+      // .on("mouseout", function(d) {   
+      //   div.transition()    
+      //      .duration(500)    
+      //      .style("opacity", 0); 
+      //  });
 
   // phrase.append("text")
   //     .datum(function(d) { return {id: d.id, value: d.values[d.values.length - 1]}; })
@@ -128,10 +144,10 @@ d3.csv("csv/line_dances.csv", type, function(error, data) {
   //     .style("font", "10px sans-serif")
   //     .text(function(d) { return d.id; });
 
-  legend = svg.append("g")
-    .attr("class","legend")
-    .attr("transform","translate(50,30)")
-    .style("font-size","12px")
+  // legend = svg.append("g")
+  //   .attr("class","legend")
+  //   .attr("transform","translate(50,30)")
+  //   .style("font-size","12px")
 
   // setTimeout(function() { 
   //   legend
@@ -142,32 +158,9 @@ d3.csv("csv/line_dances.csv", type, function(error, data) {
 });
 
 
-// Add the scatterplot
-// svg.selectAll("dot")  
-//     .data(data)     
-// .enter().append("circle")               
-//     .attr("r", 5)   
-//     .attr("cx", function(d) { return x(d.date); })     
-//     .attr("cy", function(d) { return y(d.close); })   
-//     .on("mouseover", function(d) {    
-//         div.transition()    
-//             .duration(200)    
-//             .style("opacity", .9);    
-//         div .html(formatTime(d.date) + "<br/>"  + d.close)  
-//             .style("left", (d3.event.pageX) + "px")   
-//             .style("top", (d3.event.pageY - 28) + "px");  
-//         })          
-//     .on("mouseout", function(d) {   
-//         div.transition()    
-//             .duration(500)    
-//             .style("opacity", 0); 
-//     });
-
-
 
 function type(d, _, columns) {
   d.month = parseTime(d.month);
-  console.log(d.month);
   for (var i = 1, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
   return d;
 }
