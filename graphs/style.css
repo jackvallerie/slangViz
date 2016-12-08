@@ -13,10 +13,6 @@
 
 }
 
-.axis--x path {
-  display: none;
-}
-
 /* line graph stuff */
 .line {
   fill: none;
