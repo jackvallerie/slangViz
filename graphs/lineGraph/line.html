@@ -88,11 +88,6 @@ var QueryString = function () {
 var mycsv = QueryString.key;
 
 d3.csv(mycsv, type, function(error, data) {
-//=======
-
-
-d3.csv("csv/line_friend.csv", type, function(error, data) {
-//>>>>>>> 57c70fc402870507336f4b755ed700ba686ccf86
   if (error) throw error;
 
   var phrases = data.columns.slice(1).map(function(id) {
