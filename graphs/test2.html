@@ -3,16 +3,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-
 <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
-
 <link rel="stylesheet" type="text/css" href=style.css />
 
 <script src="http://d3js.org/d3.v2.js"></script>
 
-<script lang="javascript" src="lineGraph/js/test.js"></script>
 <script src="lineGraph/js/d3.legend.js"></script>
+
+
+
+
 
 </head>
 
@@ -52,7 +53,6 @@ The Evolution of Slang
 
 <script type="text/javascript">
 
-
 //set defaults
 var bcsv = "csv/punk.csv";
 var lcsv = "lineGraph/csv/line_punk.csv";
@@ -88,8 +88,6 @@ function load_graph(bcsv, lcsv) {
 } 
 
 function load_bubble(bcsv) {
-
-
   var svg = d3.select("#bubble").insert("svg:svg")
         .attr("width", w)
         .attr("height", h);
@@ -155,13 +153,7 @@ function load_bubble(bcsv) {
 
 }
 
-
 function load_line(lcsv) {
-    
-
-
-
-
     //LINE--------------------------------------
 
     // Define the div for the tooltip
@@ -178,7 +170,7 @@ var svg = d3.select("#line"),
            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
-var parseTime = d3.timeParse("%Y-%m");
+//var parseTime = d3.timeParse("%Y-%m");
 
 var x = d3.scaleTime().range([0, width]),
     y = d3.scaleLinear().range([height, 0]),
@@ -287,15 +279,15 @@ function redraw(year, circles, labels) {
 
 
 function type(d, _, columns) {
-  var parseTime = d3.timeParse("%Y-%m");
-  d.month = parseTime(d.month);
+  var formatDate = d3.time.format("%Y-%m");
+  d.month = formatDate.parse(d.month);
+  console.log(d.month);
   for (var i = 1, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
   return d;
 }
 
 
 </script>
-
 
 </body>
 

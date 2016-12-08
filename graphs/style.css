@@ -1,5 +1,17 @@
 
 
+#linelink {
+	float: right;
+	color: black;
+	background-color: #9467bd;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    text-decoration:none;
+
+}
 
 .axis--x path {
   display: none;
@@ -71,6 +83,8 @@ circle {
   fill-opacity: .6;
   stroke: #fff;
 }
+
+
 
 /* CODE FROM ONLINE FOR SLIDER */
 
