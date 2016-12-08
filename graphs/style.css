@@ -17,16 +17,30 @@
   display: none;
 }
 
+/* line graph stuff */
 .line {
   fill: none;
   stroke: steelblue;
-  stroke-width: 1.5px;
+  stroke-width: 2px;
 }
 
 .legend rect {
   fill:white;
   stroke:black;
   opacity:0.8;}
+
+div.tooltip { 
+    position: absolute;     
+    text-align: center;     
+    width: 150px;          
+    height: 80px;         
+    padding: 2px;       
+    font: 12px sans-serif;    
+    background: lightsteelblue; 
+    border: 0px;    
+    border-radius: 8px;     
+    pointer-events: none;     
+}
 
 /* Dropdown Button */
 .dropbtn {

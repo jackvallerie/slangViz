@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<style>
+<link rel="stylesheet" type="text/css" href=../style.css />
 
-.line {
-  fill: none;
-  stroke: steelblue;
-  stroke-width: 2px;
-}
-
-.legend rect {
-  fill:white;
-  stroke:black;
-  opacity:0.8;}
-
-div.tooltip { 
-    position: absolute;     
-    text-align: center;     
-    width: 150px;          
-    height: 80px;         
-    padding: 2px;       
-    font: 12px sans-serif;    
-    background: lightsteelblue; 
-    border: 0px;    
-    border-radius: 8px;     
-    pointer-events: none;     
-}
-
-</style>
-<svg width="960" height="500"></svg>
 <script lang="javascript" src="js/d3.min.js"></script>
 <script src="js/d3.legend.js"></script>
-<script>
 
+
+<h1 align="center">  
+The Evolution of Slang
+</h1>
+
+<p>Pick a Category: </p>
+
+<script src="../menu.js"></script>
+
+<div class="dropdown">
+    <button onclick="dropclick()" class="dropbtn">Category..</button>
+        <div id="myDropdown" class="dropdown-content">
+        <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+            <a onclick ='load_graph("csv/punk.csv")'>Punk</a>
+            <a onclick='load_graph("csv/lol.csv")'>Laughter</a>
+            <a onclick='load_graph("csv/friend.csv")'>Friend</a>
+            <a onclick='load_graph("csv/weed.csv")'>Weed</a>
+            <a onclick='load_graph("csv/dances.csv")'>Dance Moves</a>
+            <a onclick='load_graph("csv/media.csv")'>Social Media</a>
+        </div>
+  </div>
+
+<a id="linelink" href="../bubble.html" align="center" onclick="location.href=this.href+'?key='+mycsv;return false;"">Bubble Graph View</a>
+
+<svg width="960" height="500"></svg>
+
+<script>
 
 // Define the div for the tooltip
 var div = d3.select("body").append("div")
@@ -58,9 +58,35 @@ var line = d3.line()
     .x(function(d) { return x(d.month); })
     .y(function(d) { return y(d.searchFreq); });
 
+//to pull from URL
+var QueryString = function () {
+  // This function is anonymous, is executed immediately and 
+  // the return value is assigned to QueryString!
+  var query_string = {};
+  var query = window.location.search.substring(1);
+  var vars = query.split("&");
+  for (var i=0;i<vars.length;i++) {
+    var pair = vars[i].split("=");
+        // If first entry with this name
+    if (typeof query_string[pair[0]] === "undefined") {
+      query_string[pair[0]] = decodeURIComponent(pair[1]);
+        // If second entry with this name
+    } else if (typeof query_string[pair[0]] === "string") {
+      var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
+      query_string[pair[0]] = arr;
+        // If third or later entry with this name
+    } else {
+      query_string[pair[0]].push(decodeURIComponent(pair[1]));
+    }
+  } 
+  return query_string;
+}();
 
+//console.log(QueryString.key);
 
-d3.csv("csv/line_lol.csv", type, function(error, data) {
+var mycsv = QueryString.key;
+
+d3.csv(mycsv, type, function(error, data) {
   if (error) throw error;
 
   var phrases = data.columns.slice(1).map(function(id) {
@@ -136,13 +162,14 @@ d3.csv("csv/line_lol.csv", type, function(error, data) {
       //      .style("opacity", 0); 
       //  });
 
-  // phrase.append("text")
-  //     .datum(function(d) { return {id: d.id, value: d.values[d.values.length - 1]}; })
-  //     .attr("transform", function(d) { return "translate(" + x(d.value.month) + "," + y(d.value.searchFreq) + ")"; })
-  //     .attr("x", 3)
-  //     .attr("dy", "0.35em")
-  //     .style("font", "10px sans-serif")
-  //     .text(function(d) { return d.id; });
+/*comment out later*/
+ phrase.append("text")
+       .datum(function(d) { return {id: d.id, value: d.values[d.values.length - 1]}; })
+      .attr("transform", function(d) { return "translate(" + x(d.value.month) + "," + y(d.value.searchFreq) + ")"; })
+       .attr("x", 3)
+      .attr("dy", "0.35em")
+    .style("font", "10px sans-serif")
+     .text(function(d) { return d.id; });
 
   // legend = svg.append("g")
   //   .attr("class","legend")
