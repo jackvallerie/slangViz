@@ -29,13 +29,11 @@ The Evolution of Slang
 
 <a id="linelink" href="../bubble.html" align="center" onclick="location.href=this.href+'?key='+mycsv;return false;"">Bubble Graph View</a>
 
-
+<div id="graph">
     <svg width="960" height="500"></svg>
-
+</div>
 
 <script>
-
-
 
 //to pull from URL
 var QueryString = function () {
@@ -73,7 +71,8 @@ load_graph(mycsv);
 
 function load_graph(mycsv) {
 
-//svg.selectAll("*").remove();
+
+document.getElementById("graph").innerHTML = ""; 
 
 // Define the div for the tooltip
 var div = d3.select("body").append("div")
@@ -96,6 +95,8 @@ var line = d3.line()
     .curve(d3.curveBasis)
     .x(function(d) { return x(d.month); })
     .y(function(d) { return y(d.searchFreq); });
+
+
 
 d3.csv(mycsv, type, function(error, data) {
 
