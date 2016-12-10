@@ -1,13 +1,11 @@
-
-
 <!DOCTYPE html>
 <html>
   <head>
-<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
-<link rel="stylesheet" type="text/css" href=style.css />
-<script src="http://d3js.org/d3.v2.js"></script>
-
+    
+  <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+  <link rel="stylesheet" type="text/css" href=style.css />
+  <script src="http://d3js.org/d3.v2.js"></script>
 </head>
 
 <body>
@@ -15,7 +13,7 @@
 The Evolution of Slang
 </h1>
 
-<p>Pick a Category: </p>
+<p>Pick a Category:</p>
 
 <script src="menu.js"></script>
 
@@ -33,18 +31,27 @@ The Evolution of Slang
   </div>
 
 
-<a id="linelink" href="lineGraph/line.html" align="center" onclick="location.href=this.href+'?key='+mycsv;return false;"">Line Graph View</a>
-
+<a id="linelink" href="lineGraph/line.html" align="center" onclick="location.href=this.href+'?key='+mycsv;return false;">Line Graph View</a>
 
 <div id="graph"></div>
 
-<p>
-<label for="year">Year :</label>
-<input type="text" id="year" style="border:0; color:#e377c2; font-weight:bold; font-size:100%" />
-</p>
-<div id="slider" style="width: 500px;">
-    
+
+<div id="slider-section">
+  <p id="slider-text">
+    <!-- TO DO: ADD PLAY BUTTON -->
+    <label for="year">Year:</label>
+    <input type="text" id="year" style="border:0; color:#e377c2; font-weight:bold; font-size:100%" />
+  </p>
+
+  <div id="slider" style="width: 500px;"></div>
 </div>
+
+
+
+
+
+
+
 
 
 <script type="text/javascript">
