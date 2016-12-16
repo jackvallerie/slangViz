@@ -15,8 +15,8 @@ The Evolution of Slang
 
 <p>Pick a Category:</p>
 
-<script src="menu.js"></script>
-
+<script src="menu.js"></script> <!--dropdown menu script-->
+<!--dropdown menu-->
 <div class="dropdown">
     <button onclick="dropclick()" class="dropbtn">Category..</button>
         <div id="myDropdown" class="dropdown-content">
@@ -27,15 +27,20 @@ The Evolution of Slang
             <a onclick='load_graph("csv/weed.csv")'>Weed</a>
             <a onclick='load_graph("csv/dances.csv")'>Dance Moves</a>
             <a onclick='load_graph("csv/media.csv")'>Social Media</a>
+            <a onclick='load_graph("csv/cool.csv")'>Cool</a>
+            <a onclick='load_graph("csv/party.csv")'>Party Terms</a>
+            <a onclick='load_graph("csv/bae.csv")'>Boyfriend/Partner</a>
+            <a onclick='load_graph("csv/bitch.csv")'>Derogatory Terms for Women</a>
         </div>
   </div>
 
+<h2 align="center">
+Bubble View
+</h2>
 
-<a id="linelink" href="lineGraph/line.html" align="center" onclick="location.href=this.href+'?key='+mycsv;return false;">Line Graph View</a>
+<div id="bubble"></div> <!--bubble graph div-->
 
-<div id="graph"></div>
-
-
+<!--slider for bubble graph-->
 <div id="slider-section">
   <p id="slider-text">
     <!-- TO DO: ADD PLAY BUTTON -->
@@ -46,7 +51,12 @@ The Evolution of Slang
   <div id="slider" style="width: 500px;"></div>
 </div>
 
+<h2 align="center">
+Line View
+</h2>
 
+<!--the line graph-->
+<iframe id="line" src="lineGraph/line.html" height="1000" width="1000"></iframe>
 
 
 
@@ -56,20 +66,22 @@ The Evolution of Slang
 
 <script type="text/javascript">
 
-var mycsv = "csv/punk.csv";
 
-// Code for bubbles+slider taken from Patrick.Brockmann@lsce.ipsl.fr
+// Some code for bubbles+slider taken from github of Patrick.Brockmann@lsce.ipsl.fr
 
+//width and height of the bubble graph div
 var w = 1200;
 var h = 400;
-var color = d3.scale.category10();
+var color = d3.scale.category10(); //color scheme of bubbles - **if you change this make sure that
+                                    //the color of words is the same between graphs!
 
+//manually set x and y coordinates of the bubbles
 var x_coords = [150, 400, 600, 700, 900];
 var y_coords = [150, 200, 250, 140, 300];
 
-
 var scalefactor = 2;
 
+//mouseover functionality
 var tooltip = d3.select("body")
     .append("div")
     .style("position", "absolute")
@@ -77,43 +89,55 @@ var tooltip = d3.select("body")
     .style("visibility", "hidden")
     .text("a simple tooltip");
 
-//to pull from URL
-var QueryString = function () {
-  // This function is anonymous, is executed immediately and 
-  // the return value is assigned to QueryString!
-  var query_string = {};
-  var query = window.location.search.substring(1);
-  var vars = query.split("&");
-  for (var i=0;i<vars.length;i++) {
-    var pair = vars[i].split("=");
-        // If first entry with this name
-    if (typeof query_string[pair[0]] === "undefined") {
-      query_string[pair[0]] = decodeURIComponent(pair[1]);
-        // If second entry with this name
-    } else if (typeof query_string[pair[0]] === "string") {
-      var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
-      query_string[pair[0]] = arr;
-        // If third or later entry with this name
-    } else {
-      query_string[pair[0]].push(decodeURIComponent(pair[1]));
-    }
-  } 
-  return query_string;
-}();
+//This whole function/variable just gets the "key" part from the URL
+  var QueryString = function () {
+              // This function is anonymous, is executed immediately and 
+              // the return value is assigned to QueryString!
+              var query_string = {};
+              var query = window.location.search.substring(1);
+              var vars = query.split("&");
+              for (var i=0;i<vars.length;i++) {
+                var pair = vars[i].split("=");
+                    // If first entry with this name
+                if (typeof query_string[pair[0]] === "undefined") {
+                  query_string[pair[0]] = decodeURIComponent(pair[1]);
+                    // If second entry with this name
+                } else if (typeof query_string[pair[0]] === "string") {
+                  var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
+                  query_string[pair[0]] = arr;
+                    // If third or later entry with this name
+                } else {
+                  query_string[pair[0]].push(decodeURIComponent(pair[1]));
+                }
+              } 
+              return query_string;
+    }();
 
-if (QueryString.key) {
-    mycsv = QueryString.key;
+  var bubble_csv = "csv/punk.csv"; //set default to Punk (Alternative Subcultures)
+
+  if (QueryString.key ) {
+      bubble_csv = QueryString.key;
+  }
+
+display_graph(bubble_csv); //loads default graph when you first go to the webpage
+
+function load_graph(bubble_csv) {
+       window.location.href='twoGraphs.html?key='+bubble_csv;
+       display_graph(bubble_csv);
+       document.getElementById('line').contentWindow.location.reload(); 
+       return false;
 }
 
-load_graph(mycsv); 
+//this function loads the graph depending on which csv to use
+function display_graph(bubble_csv) {
 
-function load_graph(current_csv) {
+    //change URL as a way to pass information on which CSV should be displayed to the line graph iframe as well
+   //window.location.href='twoGraphs.html?key='+bubble_csv;
+   //window.location = 'twoGraphs.html';
 
-    mycsv = current_csv;
+    document.getElementById("bubble").innerHTML = ""; //clear graph div
 
-    document.getElementById("graph").innerHTML = ""; //clear graph div
-
-    var svg = d3.select("#graph").insert("svg:svg")
+    var svg = d3.select("#bubble").insert("svg:svg")
         .attr("width", w)
         .attr("height", h);
 
@@ -136,7 +160,7 @@ function load_graph(current_csv) {
 
         $("#year").val($("#slider").slider("value") );
 
-    d3.csv(current_csv, function(csv) {
+    d3.csv(bubble_csv, function(csv) {
         circles.selectAll("circle")
             .data(csv)
           .enter()
@@ -175,6 +199,13 @@ function load_graph(current_csv) {
              .text(function(d) { return d["word"]; });
 
       });
+
+//RELOAD THE LINE GRAPH PAGE SO THE CSV'S ARE MATCHING
+//document.getElementById('line').contentWindow.location.reload();
+
+return false;
+
+
 }
 
 function redraw(year, circles, labels) {

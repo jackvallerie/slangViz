@@ -5,70 +5,27 @@
 <script lang="javascript" src="js/d3.min.js"></script>
 <script src="js/d3.legend.js"></script>
 
-
-<h1 align="center">  
-The Evolution of Slang
-</h1>
-
-<p>Pick a Category: </p>
-
-<script src="../menu.js"></script>
-
-<div class="dropdown">
-    <button onclick="dropclick()" class="dropbtn">Category..</button>
-        <div id="myDropdown" class="dropdown-content">
-        <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
-            <a onclick ='load_graph("csv/punk.csv")'>Alternative Subcultures</a>
-            <a onclick='load_graph("csv/lol.csv")'>Laughter</a>
-            <a onclick='load_graph("csv/friend.csv")'>Friend</a>
-            <a onclick='load_graph("csv/weed.csv")'>Weed</a>
-            <a onclick='load_graph("csv/dances.csv")'>Dance Moves</a>
-            <a onclick='load_graph("csv/media.csv")'>Social Media</a>
-        </div>
-  </div>
-
-<a id="linelink" href="../bubble.html" align="center" onclick="location.href=this.href+'?key='+mycsv;return false;"">Bubble Graph View</a>
-
-    <svg id="graph" width="960" height="500"></svg>
+<svg id="graph" width="960" height="500"></svg>
 
 
 <script>
 
-
-
-//to pull from URL
-var QueryString = function () {
-  // This function is anonymous, is executed immediately and 
-  // the return value is assigned to QueryString!
-  var query_string = {};
-  var query = window.location.search.substring(1);
-  var vars = query.split("&");
-  for (var i=0;i<vars.length;i++) {
-    var pair = vars[i].split("=");
-        // If first entry with this name
-    if (typeof query_string[pair[0]] === "undefined") {
-      query_string[pair[0]] = decodeURIComponent(pair[1]);
-        // If second entry with this name
-    } else if (typeof query_string[pair[0]] === "string") {
-      var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
-      query_string[pair[0]] = arr;
-        // If third or later entry with this name
-    } else {
-      query_string[pair[0]].push(decodeURIComponent(pair[1]));
-    }
-  } 
-  return query_string;
-}();
-
-var mycsv = "csv/punk.csv";
-
-if (QueryString.key ) {
-    mycsv = QueryString.key;
+var curr_url = document.referrer;
+var mycsv = getParameterByName('key', curr_url);
+if (mycsv == null) {
+    mycsv = "csv/punk.csv";
 }
 
 load_graph(mycsv);
 
-//console.log(QueryString.key);
+function getParameterByName(name, url) {
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
 
 function load_graph(current_csv) {
 
